@@ -119,7 +119,10 @@ jobs:
       # ── Configure ──────────────────────────────────────────────────────
       - name: Configure (Linux/macOS)
         if: runner.os != 'Windows'
-        run: meson setup builddir
+        run: |
+          which fltk-config && fltk-config --version || true
+          ls /usr/local/bin/fltk-config || true
+          meson setup builddir
 
       - name: Configure (Windows)
         if: runner.os == 'Windows'
