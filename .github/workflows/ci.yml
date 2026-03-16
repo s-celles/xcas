@@ -79,6 +79,7 @@ jobs:
           cmake --build build --parallel
           sudo cmake --install build
           sudo ldconfig
+          fltk-config --version
 
       # ── Build giac from source (Linux) ────────────────────────────────
       - name: Build giac from source (Linux)
@@ -115,7 +116,9 @@ jobs:
       # ── Configure ──────────────────────────────────────────────────────
       - name: Configure (Linux/macOS)
         if: runner.os != 'Windows'
-        run: meson setup builddir --cmake-prefix-path=/usr/local
+        env:
+          CMAKE_PREFIX_PATH: /usr/local
+        run: meson setup builddir
 
       - name: Configure (Windows)
         if: runner.os == 'Windows'
