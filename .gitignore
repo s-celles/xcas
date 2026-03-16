@@ -11,6 +11,7 @@
 !.gitignore
 !.github/
 !.github/**
+!BUILD_WITH_MESON.md
 !LICENSE
 !README.md
 !meson.build
