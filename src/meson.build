@@ -17,7 +17,6 @@ xcas_lib_sources = files(
   'Flv_CStyle.cc', 'Flve_Check_Button.cc', 'Flve_Input.cc',
   'Flv_Style.cc', 'Flv_Data_Source.cc', 'Flve_Combo.cc',
   'Flv_List.cc', 'Flv_Table.cc', 'gl2ps.c', 'Python.cc',
-  'qrcodegen.c',
 )
 
 libxcas = shared_library('xcas',
