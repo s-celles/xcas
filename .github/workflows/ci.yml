@@ -35,10 +35,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y meson ninja-build gcc g++ \
-            libgmp-dev libmpfr-dev \
-            libfltk1.3-dev libfltk-images1.3-dev libfltk-gl1.3-dev \
-            libfltk-forms1.3-dev
-          fltk-config --version || true
+            libgmp-dev libmpfr-dev libfltk1.3-dev
 
       # ── macOS dependencies ─────────────────────────────────────────────
       - name: Install dependencies (macOS)

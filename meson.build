@@ -80,6 +80,7 @@ x11_dep = dependency('x11', required: false)
 # ── Common compile arguments ──────────────────────────────────────────────────
 
 xcas_common_args = [
+  '-DHAVE_CONFIG_H',
   '-DHAVE_LIBFLTK',
   '-fno-strict-aliasing',
 ]
