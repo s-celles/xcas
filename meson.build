@@ -38,13 +38,16 @@ if _fltk_config.found()
     check: true).stdout().strip()
   _fltk_link_args = []
   foreach _f : _fltk_ldflags.split()
-    if not _f.contains('png') and not _f.contains('jpeg')
+    # Filter out png/jpeg/zlib — resolve via dependency() instead to
+    # avoid stale Homebrew Cellar paths and MSYS2 internal paths
+    if not _f.contains('png') and not _f.contains('jpeg') and _f != '-lz' and not _f.startswith('/mingw')
       _fltk_link_args += _f
     endif
   endforeach
   _fltk_img_deps = [
     dependency('libpng', required: false),
     dependency('libjpeg', required: false),
+    dependency('zlib', required: false),
   ]
   fltk_dep = declare_dependency(
     compile_args: _fltk_cflags.split(),
