@@ -32,7 +32,6 @@ void gl_start(){}
 void gl_finish(){}
 #endif
 #include <FL/fl_ask.H>
-#include <FL/fl_ask.H>
 #include <FL/Fl.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_Value_Input.H>

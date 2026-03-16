@@ -1314,7 +1314,7 @@ namespace xcas {
       tmp=remove_extension(tmp.c_str())+"."+extension;
       if (access(tmp.c_str(),R_OK))
 	return true;
-      int i=fl_ask("%s",(tmp+gettext(": file exists. Overwrite?")).c_str());
+      int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,(tmp+gettext(": file exists. Overwrite?")).c_str());
       if (i==1)
 	return true;
     }
@@ -2732,7 +2732,7 @@ namespace xcas {
     if (ch){
       int i=atoi(ch);
       if (i<tg->rows()){
-	int j=fl_ask("%s",gettext("Really delete rows?"));
+	int j=fl_choice("%s",gettext("No"),gettext("Yes"),0,gettext("Really delete rows?"));
 	if (!j)
 	  return;
       }
@@ -2748,7 +2748,7 @@ namespace xcas {
     if (ch){
       int i=atoi(ch);
       if (i<tg->cols()){
-	int j=fl_ask("%s",gettext("Really delete columns?"));
+	int j=fl_choice("%s",gettext("No"),gettext("Yes"),0,gettext("Really delete columns?"));
 	if (!j)
 	  return;
       }
@@ -2932,7 +2932,7 @@ namespace xcas {
     const giac::context * contextptr = get_context(spread_ptr);
     current_spread_ptr=spread_ptr;
     if (spread_ptr->is_spreadsheet){
-      int i=fl_ask("%s",gettext("Sorting is not compatible with some cell references. Sort anyway"),gettext("Yes"),gettext("No"));
+      int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,gettext("Sorting is not compatible with some cell references. Sort anyway"),gettext("Yes"),gettext("No"));
       if (i!=1) return ;
     }
     int r1,r2,c1,c2;

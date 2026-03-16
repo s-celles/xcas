@@ -953,7 +953,7 @@ void cb_Insert_Example(Fl_Widget * w , void*) {
       std::string thepath="";
   #endif
       if (giac::is_file_available((thepath+filename).c_str())){
-        i=fl_ask("%s",("File "+std::string(m->text())+" exists. Overwrite?").c_str());
+        i=fl_choice("%s",gettext("No"),gettext("Yes"),0,("File "+std::string(m->text())+" exists. Overwrite?").c_str());
       }
       if (i){
         ls=vfile.size();
@@ -1149,7 +1149,7 @@ void load_autorecover_data() {
        configfile << configs << std::endl;
        configfile.close();
        // fl_alert("%s",("Configuration written to "+configname + "\nUse the Cfg menu to modify.\nLaunching tutorial.").c_str());
-       n=fl_ask("%s",gettext("Launch tutorial in browser?"));
+       n=fl_choice("%s",gettext("No"),gettext("Yes"),0,gettext("Launch tutorial in browser?"));
        if (n==1){
          if (giac::language(giac::context0)==1)
            giac::system_browser_command(xcas::doc_prefix+"tutoriel.html");
@@ -1170,7 +1170,7 @@ void load_autorecover_data() {
         strcpy(buf,xcas::autosave_folder.c_str());
       if ( autoload && has_autorecover_data(buf,v)){
         // Ask user: ignore or run file
-        int i=fl_ask("%s",gettext("Auto-recovery files found. Load ?"),gettext("Yes"),gettext("No"));
+        int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,gettext("Auto-recovery files found. Load ?"));
         if (i!=1)
   	return;
         xcas::geo_run=xcas::sheet_run=false;
@@ -1502,7 +1502,7 @@ static void cb_Xcas_nw_backup(Fl_Menu_*, void*) {
   const char * newfile=file_chooser("Enter file name", "*.nws", "backup.nws");
              if (!newfile) return;
              if (giac::is_file_available(newfile)){
-                int i=fl_ask(gettext("File %s exists. Overwrite?"),newfile);
+                int i=fl_choice(gettext("File %s exists. Overwrite?"),gettext("No"),gettext("Yes"),0,newfile);
                 if ( !i ) return;
              }
              if (!dfu_get_scriptstore(newfile))
@@ -1565,11 +1565,11 @@ static void cb_Xcas_nw_alpha(Fl_Menu_*, void*) {
 }
 
 static void cb_Xcas_nw_rescue(Fl_Menu_*, void*) {
-  int i=fl_ask(gettext("Connect the calculator,\nPress the 6 key on the calculator, press the RESET button on the back keeping the 6 key pressed, release the 6 key,\nThe screen should be down and the led should be red\nOn windows, please install a driver for STM32-BOOTLOADER from https://zadig.akeo.ie/\nIf you run Xcas from a virtual machine, enable the STM32 BOOTLOADER in USB devices")); if (!i) return;
+  int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,gettext("Connect the calculator,\nPress the 6 key on the calculator, press the RESET button on the back keeping the 6 key pressed, release the 6 key,\nThe screen should be down and the led should be red\nOn windows, please install a driver for STM32-BOOTLOADER from https://zadig.akeo.ie/\nIf you run Xcas from a virtual machine, enable the STM32 BOOTLOADER in USB devices")); if (!i) return;
              std::string prefix=giac::giac_aide_dir()+"doc/";
              if (!dfu_send_rescue((prefix+"recovery").c_str()))
                fl_alert("%s",gettext("Unable to send rescue RAM image to the Numworks calculator."));
-              i=fl_ask(gettext("If you are running Xcas from a virtual machine, please enable the Numworks calculator in USB devices. Install KhiCAS?"));
+              i=fl_choice("%s",gettext("No"),gettext("Yes"),0,gettext("If you are running Xcas from a virtual machine, please enable the Numworks calculator in USB devices. Install KhiCAS?"));
               if (!i) return;
               if (!dfu_send_bootloader((prefix+"bootloader.bin").c_str()))
 	        fl_alert("%s",gettext("Unable to send multi-boot loader. You will be asked to update your bootloader when running KhiCAS for the first time."));
@@ -1584,7 +1584,7 @@ static void cb_Xcas_nw_rescue(Fl_Menu_*, void*) {
 }
 
 static void cb_Xcas_nw_certify_overwrite(Fl_Menu_*, void*) {
-  int i=fl_ask("Ce test necessite l'accord du proprietaire de la calculatrice et dure environ 1 minute. Effectuer?");
+  int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,"Ce test necessite l'accord du proprietaire de la calculatrice et dure environ 1 minute. Effectuer?");
             if (i==0) return;
 	    bool b=giac::nws_certify_firmware(true,Xcas_get_context());
             fl_message(b?"Firmware signé par le logiciel Xcas, conforme à la réglementation\n(assurez-vous d'avoir téléchargé Xcas sur www-fourier.univ-grenoble-alpes.fr/~parisse/install_fr.html)":"Le firmware n'est pas certifié par le logiciel Xcas.\nVérifiez que la calculatrice est bien connectée!");
@@ -1619,7 +1619,7 @@ static void cb_Xcas_nnumworks_backup(Fl_Menu_*, void*) {
   const char * newfile=file_chooser("Enter file name", "*.nws", "backup.nws");
              if (!newfile) return;
              if (giac::is_file_available(newfile)){
-                int i=fl_ask(gettext("File %s exists. Overwrite?"),newfile);
+                int i=fl_choice(gettext("File %s exists. Overwrite?"),gettext("No"),gettext("Yes"),0,newfile);
                 if ( !i ) return;
              }
              if (!dfu_get_scriptstore(newfile))
@@ -2397,7 +2397,7 @@ static void cb_Xcas_help_load(Fl_Menu_*, void*) {
      break;
  }
  path=path.substr(0,i+1)+"share";
- i=fl_ask("%s",("Check that you can write over "+path+",\ncheck that your Internet connection is ready\nand check that wget, tar and gzip are installed.\nProceed?").c_str());
+ i=fl_choice("%s",gettext("No"),gettext("Yes"),0,("Check that you can write over "+path+",\ncheck that your Internet connection is ready\nand check that wget, tar and gzip are installed.\nProceed?").c_str());
   if (i){
     fl_message("%s",("Executing: mkdir /tmp ; cd /tmp && wget https://www-fourier.univ-grenoble-alpes.fr/~parisse/giac/giacshare.tgz && cd "+path+" && tar xvfz /tmp/giacshare.tgz").c_str());
     system(("mkdir /tmp ; cd /tmp && wget https://www-fourier.univ-grenoble-alpes.fr/~parisse/giac/giacshare.tgz && cd "+path+" && tar xvfz /tmp/giacshare.tgz").c_str());
@@ -6025,7 +6025,7 @@ Fl_Window* Xcas_run(int argc,char ** argv) {
           if (hf && hf->pack && hf->pack->children() < 2 ) { hf->pack->close(""); Xcas_Main_Tab->remove(hf);}
         }
     load_filename(("/data/"+init_filename).c_str(),false);
-    if (fl_ask("%s",gettext("Exec session?")))
+    if (fl_choice("%s",gettext("No"),gettext("Yes"),0,gettext("Exec session?")))
       xcas::History_cb_Run_Worksheet(Xcas_current_session(),0);
   }
   chdir("/data");

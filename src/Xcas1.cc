@@ -4380,21 +4380,21 @@ namespace xcas {
     if (!fltk_return_value || file_type==5){
       if (xcas::History_Fold * hf=dynamic_cast<xcas::History_Fold *>(wid)){
 	if (hf->pack->_modified){
-	  int i=fl_ask(gettext("History modified. Save?"));
+	  int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,gettext("History modified. Save?"));
 	  if (i)
 	    hf->pack->save(0);
 	}
       }
       if (xcas::Figure * fig=dynamic_cast<xcas::Figure *>(wid)){
 	if (fig->geo->hp->_modified && !figure_filename.empty()){
-	  int i=fl_ask("Figure modified. Save?");
+	  int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,"Figure modified. Save?");
 	  if (i)
 	    fig->save_figure_as(figure_filename);
 	}
       }
       if (xcas::Tableur_Group * t=dynamic_cast<xcas::Tableur_Group * >(wid)){
 	if (t->table->changed_ && !t->table->filename->empty()){
-	  int i=fl_ask("Sheet modified. Save?");
+	  int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,"Sheet modified. Save?");
 	  if (i){
 	    ofstream of(t->table->filename->c_str());
 	    if (!of)

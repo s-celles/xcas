@@ -24,7 +24,6 @@
 #endif
 #ifdef HAVE_LIBFLTK
 #include <FL/fl_ask.H>
-#include <FL/fl_ask.H>
 #include <FL/Fl_Hold_Browser.H>
 #include <fstream>
 #include "vector.h"
@@ -54,13 +53,13 @@ namespace xcas {
 	case '\n':
 	  res += ' ';
 	  break;
-	case 'é': case 'è': case 'É':
+	case 'ï¿½': case 'ï¿½': case 'ï¿½':
 	  res += 'e';
 	  break;
-	case 'à':
+	case 'ï¿½':
 	  res += 'a';
 	  break;
-	case 'ô':
+	case 'ï¿½':
 	  res += 'o';
 	  break;
 	default:
@@ -157,13 +156,13 @@ namespace xcas {
 	continue;
       }
       switch (s[i]){
-	case 'é': case 'è': case 'É':
+	case 'ï¿½': case 'ï¿½': case 'ï¿½':
 	  res += 'e';
 	  break;
-	case 'à':
+	case 'ï¿½':
 	  res += 'a';
 	  break;
-	case 'ô':
+	case 'ï¿½':
 	  res += 'o';
 	  break;
 	  /*

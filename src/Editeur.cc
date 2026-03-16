@@ -38,7 +38,6 @@ extern "C" int mp_token(const char * line);
 
 #ifdef HAVE_LIBFLTK
 #include <FL/fl_ask.H>
-#include <FL/fl_ask.H>
 #include <FL/Fl_Return_Button.H>
 #include <FL/Fl_Tooltip.H>
 #include <FL/Fl_Hold_Browser.H>
@@ -543,7 +542,7 @@ namespace xcas {
     Fl_Text_Editor * e = find_editor(m);
     if (e){
       if (e->changed()){
-	int i=fl_ask("%s","Buffer changed. Save?");
+	int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,"Buffer changed. Save?");
 	if (i)
 	  cb_Editeur_Save(m,0);
       }
@@ -668,7 +667,7 @@ namespace xcas {
       return;
     }
     if (is_file_available(newfile.c_str())){
-      int i=fl_ask("%s",gettext("File exists. Overwrite?"));
+      int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,gettext("File exists. Overwrite?"));
       if (!i)
 	return;
     }
@@ -837,7 +836,7 @@ namespace xcas {
 	  tmp=remove_extension(tmp.substr(0,1000).c_str())+"."+extension;
 	if (access(tmp.c_str(),R_OK))
 	  break;
-	int i=fl_ask("%s",(tmp+gettext(": file exists. Overwrite?")).c_str());
+	int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,(tmp+gettext(": file exists. Overwrite?")).c_str());
 	if (i==1)
 	  break;
       }
@@ -878,7 +877,7 @@ namespace xcas {
     }
     nws_map::const_iterator it=m.find(name),itend=m.end();
     if (it!=itend){
-      int i=fl_ask("%s",gettext("Program exists on calculator. Overwrite?"));
+      int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,gettext("Program exists on calculator. Overwrite?"));
       if (i==0)
 	return;      
     }
@@ -1899,7 +1898,7 @@ namespace xcas {
 	    const char *replace = i2->value();
 	    int i=1;
 	    if (!replace[0])
-	      i=fl_ask("%s","Really replace by nothing?");
+	      i=fl_choice("%s",gettext("No"),gettext("Yes"),0,"Really replace by nothing?");
 	    if (i && find[0] != 0){
 	      ed->previous_word();
 	      int pos = ed->insert_position();

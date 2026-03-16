@@ -1184,7 +1184,7 @@ namespace xcas {
 	    }
 	  }
 	  if (line_beg+col>taille){
-	    int ans=fl_ask("%s",((logs+'\n')+gettext("To get a newline, use shift-Enter. Reedit?")).c_str());
+	    int ans=fl_choice("%s",gettext("No"),gettext("Yes"),0,((logs+'\n')+gettext("To get a newline, use shift-Enter. Reedit?")).c_str());
 	    if (ans==1){
 	      position(taille,taille);
 	      Fl::focus(this);
@@ -1196,7 +1196,7 @@ namespace xcas {
 	  }
 	  else {
 	    // position(line_beg,line_end);
-	    int ans=fl_ask("%s",(logs+"\nReedit?").c_str());
+	    int ans=fl_choice("%s",gettext("No"),gettext("Yes"),0,(logs+"\nReedit?").c_str());
 	    if (ans){
 	      i=line_beg+col-1;
 	      position(max(int(i-token.size()),0),i);

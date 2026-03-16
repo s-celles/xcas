@@ -3063,7 +3063,7 @@ namespace xcas {
       return 0;
     static string s=remove_extension(filename)+".tex";
     if (is_file_available(s.c_str())){
-      int i=fl_ask("%s",("File "+s+" exists. Overwrite?").c_str());
+      int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,("File "+s+" exists. Overwrite?").c_str());
       if ( !i )
 	return 0;
     }
@@ -4941,7 +4941,7 @@ namespace xcas {
     Figure * f=find_figure(m);
     if (f && f->geo){
       if (!asked && mode==0 && !f->geo->approx){
-	int i=fl_ask("%s","Dynamic geometry works faster in approx mode. Drag in approx mode?");
+	int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,"Dynamic geometry works faster in approx mode. Drag in approx mode?");
 	if (i)
 	  f->geo->approx=true;
 	asked=true;
@@ -7418,7 +7418,7 @@ namespace xcas {
 	s=remove_extension(s.substr(0,1000).c_str())+".cas";
 	if (access(s.c_str(),R_OK))
 	  break;
-	int i=fl_ask("%s",(s+gettext(": file exists. Overwrite?")).c_str());
+	int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,(s+gettext(": file exists. Overwrite?")).c_str());
 	if (i==1)
 	  break;
       }

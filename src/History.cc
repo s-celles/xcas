@@ -2175,7 +2175,7 @@ namespace xcas {
 #endif
     string s=remove_extension(newfile)+".xws";
     if (is_file_available(s.c_str())){
-      int i=fl_ask("%s",("File "+s+" exists. Overwrite?").c_str());
+      int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,("File "+s+" exists. Overwrite?").c_str());
       if ( !i )
 	return false;
     }
@@ -2719,7 +2719,7 @@ namespace xcas {
     fprintf(stdout,"file exists %s\n",newfile);
     if (mws==3 || mws==7){
       if (xcas_mode(contextptr)!=3){
-	int i=fl_ask("%s",gettext("Set compatibility mode to TI?"));
+	int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,gettext("Set compatibility mode to TI?"));
 	if (i)
 	  xcas_mode(contextptr)=3;
       }
@@ -2755,7 +2755,7 @@ namespace xcas {
       // Translate to xcas worksheet
       string xcasws=remove_extension(newfile)+".xws";
       if (is_file_available(xcasws.c_str())){
-	int i=fl_ask("%s",(gettext("File ")+xcasws+gettext(" exists. Overwrite?")).c_str());
+	int i=fl_choice("%s",gettext("No"),gettext("Yes"),0,(gettext("File ")+xcasws+gettext(" exists. Overwrite?")).c_str());
 	if (!i)
 	  return false;
       }
