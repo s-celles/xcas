@@ -30,7 +30,10 @@ endif
 
 # FLTK (required — GUI framework, >= 1.4.0)
 # Try config-tool first, then pkg-config/cmake as fallback
-fltk_dep = dependency('fltk', method: 'config-tool', required: false)
+fltk_dep = dependency('fltk', method: 'config-tool', tools: ['fltk-config'], required: false)
+if not fltk_dep.found()
+  fltk_dep = dependency('fltk', method: 'cmake', required: false)
+endif
 if not fltk_dep.found()
   fltk_dep = dependency('fltk', required: false)
 endif
