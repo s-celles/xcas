@@ -61,7 +61,7 @@ void gl_finish(){}
 #undef HAVE_LIBFLTK_GL
 //#include <OpenGL/gl.h>
 //#include <AGL/agl.h>
-#include <FL/x.H>
+#include <FL/platform.H>
 #include <FL/fl_draw.H>
 #define __APPLE_QUARTZ__ 1
 #include "Fl_Gl_Choice.H"
@@ -5045,13 +5045,11 @@ bool discard(Graph3d * gr,double x,double y,double z){
     return filename;
   }
 
-  Graph3d::~Graph3d(){ 
+  Graph3d::~Graph3d(){
 #if defined __APPLE__ && !defined GRAPH_WINDOW
     if (glcontext){
-      fl_delete_gl_context((GLContext) glcontext);
-      //aglSetCurrentContext( NULL );
-      //aglSetWindowRef((GLContext) glcontext, NULL );    
-      //aglDestroyContext((GLContext)glcontext);
+      // FLTK 1.4: GL context cleanup is handled by Fl_Gl_Window destructor
+      context(0);
     }
 #endif
   }
