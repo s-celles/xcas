@@ -62,6 +62,7 @@ endif
 
 xcas_common_args = [
   '-DHAVE_CONFIG_H',
+  '-DGIAC_GENERIC_CONSTANTS',
   '-DHAVE_LIBFLTK',
   '-fno-strict-aliasing',
 ]
