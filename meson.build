@@ -16,10 +16,6 @@ cxx = meson.get_compiler('cpp')
 # libgiac (required — core CAS library)
 giac_dep = dependency('giac', required: true)
 
-# GMP and MPFR (required — giac's .pc file may not list them as public deps)
-gmp_dep = dependency('gmp', required: true)
-mpfr_dep = dependency('mpfr', required: true)
-
 # giac headers are installed to <prefix>/include/giac/ but xcas sources
 # use bare includes (#include "first.h" not "giac/first.h").
 # Add the giac subdirectory to the include path.
@@ -88,6 +84,13 @@ endif
 # Optional GL and X11
 gl_dep = dependency('gl', required: false)
 x11_dep = dependency('x11', required: false)
+
+# libintl (needed on Windows/MSYS2 for gettext)
+if host_machine.system() == 'windows'
+  intl_dep = cc.find_library('intl', required: true)
+else
+  intl_dep = declare_dependency()
+endif
 
 # ── Common compile arguments ──────────────────────────────────────────────────
 
