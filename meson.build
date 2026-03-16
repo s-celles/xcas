@@ -17,14 +17,8 @@ cxx = meson.get_compiler('cpp')
 giac_dep = dependency('giac', required: true)
 
 # GMP and MPFR (required — giac's .pc file may not list them as public deps)
-gmp_dep = dependency('gmp', required: false)
-if not gmp_dep.found()
-  gmp_dep = cc.find_library('gmp', required: true)
-endif
-mpfr_dep = dependency('mpfr', required: false)
-if not mpfr_dep.found()
-  mpfr_dep = cc.find_library('mpfr', required: true)
-endif
+gmp_dep = dependency('gmp', required: true)
+mpfr_dep = dependency('mpfr', required: true)
 
 # giac headers are installed to <prefix>/include/giac/ but xcas sources
 # use bare includes (#include "first.h" not "giac/first.h").
@@ -103,8 +97,12 @@ xcas_common_args = [
   '-fno-strict-aliasing',
 ]
 
+if host_machine.system() == 'windows'
+  xcas_common_args += ['-DWIN32']
+endif
+
 if gl_dep.found()
-  xcas_common_args += ['-DHAVE_LIBFLTK_GL']
+  xcas_common_args += ['-DHAVE_LIBGL', '-DHAVE_LIBFLTK_GL']
 endif
 
 # ── Build ─────────────────────────────────────────────────────────────────────
