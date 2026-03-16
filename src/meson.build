@@ -1,6 +1,6 @@
 # ── Dependencies for GUI targets ──────────────────────────────────────────────
 
-gui_deps = [giac_dep, fltk_dep]
+gui_deps = [giac_dep, giac_extra_inc, fltk_dep]
 if gl_dep.found()
   gui_deps += gl_dep
 endif
@@ -21,6 +21,7 @@ xcas_lib_sources = files(
 
 libxcas = shared_library('xcas',
   xcas_lib_sources,
+
   dependencies: gui_deps,
   c_args: xcas_common_args,
   cpp_args: xcas_common_args,
@@ -38,6 +39,7 @@ libxcas_dep = declare_dependency(
 
 executable('xcas',
   files('xcas.cxx'),
+
   dependencies: [giac_dep, libxcas_dep],
   c_args: xcas_common_args,
   cpp_args: xcas_common_args,

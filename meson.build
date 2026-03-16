@@ -16,6 +16,18 @@ cxx = meson.get_compiler('cpp')
 # libgiac (required — core CAS library)
 giac_dep = dependency('giac', required: true)
 
+# giac headers are installed to <prefix>/include/giac/ but xcas sources
+# use bare includes (#include "first.h" not "giac/first.h").
+# Add the giac subdirectory to the include path.
+giac_includedir = giac_dep.get_variable(pkgconfig: 'includedir', default_value: '')
+if giac_includedir != ''
+  giac_extra_inc = declare_dependency(
+    compile_args: ['-I' + giac_includedir / 'giac'],
+  )
+else
+  giac_extra_inc = declare_dependency()
+endif
+
 # FLTK (required — GUI framework)
 # Try system FLTK via fltk-config
 fltk_dep = dependency('fltk', method: 'config-tool', required: false)
