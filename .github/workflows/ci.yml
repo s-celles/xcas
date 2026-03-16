@@ -61,6 +61,9 @@ jobs:
             mingw-w64-x86_64-mpfr
             mingw-w64-x86_64-cmake
             mingw-w64-x86_64-gettext-runtime
+            mingw-w64-x86_64-libpng
+            mingw-w64-x86_64-libjpeg-turbo
+            mingw-w64-x86_64-zlib
 
       # ── Build giac from source (Linux) ────────────────────────────────
       - name: Build giac from source (Linux)

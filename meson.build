@@ -85,11 +85,16 @@ endif
 gl_dep = dependency('gl', required: false)
 x11_dep = dependency('x11', required: false)
 
-# libintl (needed on Windows/MSYS2 for gettext)
+# Windows-specific dependencies
 if host_machine.system() == 'windows'
   intl_dep = cc.find_library('intl', required: true)
+  # FLTK images on Windows needs jpeg/png/zlib explicitly
+  jpeg_dep = dependency('libjpeg', required: true)
+  png_dep = dependency('libpng', required: true)
+  zlib_dep = dependency('zlib', required: true)
+  win_extra_deps = [intl_dep, jpeg_dep, png_dep, zlib_dep]
 else
-  intl_dep = declare_dependency()
+  win_extra_deps = []
 endif
 
 # ── Common compile arguments ──────────────────────────────────────────────────
