@@ -1,6 +1,6 @@
 # ── Dependencies for GUI targets ──────────────────────────────────────────────
 
-gui_deps = [giac_dep, giac_extra_inc, fltk_dep]
+gui_deps = [giac_dep, giac_extra_inc, gmp_dep, mpfr_dep, fltk_dep]
 if gl_dep.found()
   gui_deps += gl_dep
 endif

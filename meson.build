@@ -16,6 +16,16 @@ cxx = meson.get_compiler('cpp')
 # libgiac (required — core CAS library)
 giac_dep = dependency('giac', required: true)
 
+# GMP and MPFR (required — giac's .pc file may not list them as public deps)
+gmp_dep = dependency('gmp', required: false)
+if not gmp_dep.found()
+  gmp_dep = cc.find_library('gmp', required: true)
+endif
+mpfr_dep = dependency('mpfr', required: false)
+if not mpfr_dep.found()
+  mpfr_dep = cc.find_library('mpfr', required: true)
+endif
+
 # giac headers are installed to <prefix>/include/giac/ but xcas sources
 # use bare includes (#include "first.h" not "giac/first.h").
 # Add the giac subdirectory to the include path.
@@ -32,10 +42,18 @@ endif
 # Try system FLTK via fltk-config
 fltk_dep = dependency('fltk', method: 'config-tool', required: false)
 
-# On macOS, Homebrew's fltk@1.3 is keg-only — try its fltk-config explicitly
-if not fltk_dep.found() and host_machine.system() == 'darwin'
-  foreach _fltk13_path : ['/opt/homebrew/opt/fltk@1.3/bin/fltk-config',
+# If config-tool method failed, try explicit fltk-config paths
+if not fltk_dep.found()
+  _fltk_search_paths = []
+  if host_machine.system() == 'darwin'
+    # Homebrew's fltk@1.3 is keg-only
+    _fltk_search_paths = ['/opt/homebrew/opt/fltk@1.3/bin/fltk-config',
                           '/usr/local/opt/fltk@1.3/bin/fltk-config']
+  else
+    _fltk_search_paths = ['/usr/bin/fltk-config']
+  endif
+
+  foreach _fltk13_path : _fltk_search_paths
     _fltk13 = find_program(_fltk13_path, required: false)
     if _fltk13.found()
       _fltk_cflags = run_command(_fltk13, '--cflags', check: true).stdout().strip()
