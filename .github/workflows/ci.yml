@@ -34,12 +34,15 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y meson ninja-build gcc g++ \
+          sudo apt-get install -y ninja-build gcc g++ \
             libgmp-dev libmpfr-dev cmake \
             libgl-dev libglu1-mesa-dev \
             libx11-dev libxext-dev libxft-dev \
             libxinerama-dev libxcursor-dev libxfixes-dev libxrender-dev \
-            libpango1.0-dev libpng-dev libjpeg-dev
+            libpango1.0-dev libpng-dev libjpeg-dev \
+            pipx
+          pipx install meson
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       # ── macOS dependencies ─────────────────────────────────────────────
       - name: Install dependencies (macOS)
@@ -116,8 +119,6 @@ jobs:
       # ── Configure ──────────────────────────────────────────────────────
       - name: Configure (Linux/macOS)
         if: runner.os != 'Windows'
-        env:
-          CMAKE_PREFIX_PATH: /usr/local
         run: meson setup builddir
 
       - name: Configure (Windows)
