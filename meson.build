@@ -29,12 +29,30 @@ else
 endif
 
 # FLTK (required — GUI framework, >= 1.4.0)
-# Try config-tool first, then pkg-config/cmake as fallback
-fltk_dep = dependency('fltk', method: 'config-tool', tools: ['fltk-config'], required: false)
-if not fltk_dep.found()
-  fltk_dep = dependency('fltk', method: 'cmake', required: false)
-endif
-if not fltk_dep.found()
+# Build dependency from fltk-config if available
+_fltk_config = find_program('fltk-config', required: false)
+if _fltk_config.found()
+  _fltk_ver = run_command(_fltk_config, '--version', check: true).stdout().strip()
+  _fltk_cflags = run_command(_fltk_config, '--cflags', check: true).stdout().strip()
+  _fltk_ldflags = run_command(_fltk_config, '--use-gl', '--use-images', '--ldflags',
+    check: true).stdout().strip()
+  _fltk_link_args = []
+  foreach _f : _fltk_ldflags.split()
+    if not _f.contains('png') and not _f.contains('jpeg')
+      _fltk_link_args += _f
+    endif
+  endforeach
+  _fltk_img_deps = [
+    dependency('libpng', required: false),
+    dependency('libjpeg', required: false),
+  ]
+  fltk_dep = declare_dependency(
+    compile_args: _fltk_cflags.split(),
+    link_args: _fltk_link_args,
+    dependencies: _fltk_img_deps,
+    version: _fltk_ver,
+  )
+else
   fltk_dep = dependency('fltk', required: false)
 endif
 if not fltk_dep.found()
