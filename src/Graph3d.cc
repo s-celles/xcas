@@ -5045,12 +5045,7 @@ bool discard(Graph3d * gr,double x,double y,double z){
   }
 
   Graph3d::~Graph3d(){
-#if defined __APPLE__ && !defined GRAPH_WINDOW
-    if (glcontext){
-      // FLTK 1.4: GL context cleanup is handled by Fl_Gl_Window destructor
-      context(0);
-    }
-#endif
+    // FLTK 1.4: Fl_Gl_Window destructor handles GL context cleanup
   }
 
   void Graph3d::reset_view() {

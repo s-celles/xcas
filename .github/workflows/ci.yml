@@ -36,8 +36,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y meson ninja-build gcc g++ \
             libgmp-dev libmpfr-dev cmake \
-            libgl-dev libx11-dev libxext-dev libxft-dev \
-            libxinerama-dev libxcursor-dev libxfixes-dev \
+            libgl-dev libglu1-mesa-dev \
+            libx11-dev libxext-dev libxft-dev \
+            libxinerama-dev libxcursor-dev libxfixes-dev libxrender-dev \
             libpango1.0-dev libpng-dev libjpeg-dev
 
       # ── macOS dependencies ─────────────────────────────────────────────
