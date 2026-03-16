@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-24.04
             name: Linux
           - os: macos-latest
             name: macOS
@@ -35,7 +35,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y meson ninja-build gcc g++ \
-            libgmp-dev libmpfr-dev libfltk1.4-dev
+            libgmp-dev libmpfr-dev cmake
 
       # ── macOS dependencies ─────────────────────────────────────────────
       - name: Install dependencies (macOS)
@@ -58,7 +58,23 @@ jobs:
             mingw-w64-x86_64-gmp
             mingw-w64-x86_64-mpfr
             mingw-w64-x86_64-fltk
+            mingw-w64-x86_64-cmake
             mingw-w64-x86_64-gettext-runtime
+
+      # ── Build FLTK 1.4 from source (Linux) ───────────────────────────
+      - name: Build FLTK 1.4 from source (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          git clone --depth 1 --branch release-1.4.2 \
+            https://github.com/fltk/fltk.git /tmp/fltk-src
+          cd /tmp/fltk-src
+          cmake -B build -G Ninja \
+            -DCMAKE_INSTALL_PREFIX=/usr/local \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DFLTK_BUILD_SHARED_LIBS=ON
+          cmake --build build --parallel
+          sudo cmake --install build
+          sudo ldconfig
 
       # ── Build giac from source (Linux) ────────────────────────────────
       - name: Build giac from source (Linux)

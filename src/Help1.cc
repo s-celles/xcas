@@ -49,22 +49,12 @@ namespace xcas {
     string res;
     for (int i=0;i<l;++i){
       if (s[i]!='&'){
-	switch(s[i]){
-	case '\n':
+	unsigned char c = static_cast<unsigned char>(s[i]);
+	if (s[i] == '\n')
 	  res += ' ';
-	  break;
-	case '�': case '�': case '�':
-	  res += 'e';
-	  break;
-	case '�':
-	  res += 'a';
-	  break;
-	case '�':
-	  res += 'o';
-	  break;
-	default:
+	else if (c < 0x80)
 	  res += s[i];
-	}
+	// Skip non-ASCII bytes (accented chars in various encodings)
       }
       else {
 	int pos=s.find(';',i);
@@ -155,35 +145,11 @@ namespace xcas {
 	}
 	continue;
       }
-      switch (s[i]){
-	case '�': case '�': case '�':
-	  res += 'e';
-	  break;
-	case '�':
-	  res += 'a';
-	  break;
-	case '�':
-	  res += 'o';
-	  break;
-	  /*
-      case 'é':
-	res += 'e'; // "&#233;";
-	break;
-      case 'è':
-	res +='e'; // "&#232;";
-	break;
-      case 'ê':
-	res += 'e'; // "&#234;";
-	break;
-      case 'à':
-	res += 'a'; // "&#224;";
-	break;
-      case 'î':
-	res += 'i'; // "&#238;";
-	break;
-	  */
-      default:
-	res += tolower(s[i]);
+      {
+	unsigned char c = static_cast<unsigned char>(s[i]);
+	if (c < 0x80)
+	  res += tolower(s[i]);
+	// Skip non-ASCII bytes (accented chars in various encodings)
       }
     }
     return res;
