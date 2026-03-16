@@ -35,7 +35,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y meson ninja-build gcc g++ \
-            libgmp-dev libmpfr-dev libfltk1.3-dev
+            libgmp-dev libmpfr-dev \
+            libfltk1.3-dev libfltk-images1.3-dev libfltk-gl1.3-dev \
+            libfltk-forms1.3-dev
+          fltk-config --version || true
 
       # ── macOS dependencies ─────────────────────────────────────────────
       - name: Install dependencies (macOS)
@@ -51,16 +54,13 @@ jobs:
           msystem: MINGW64
           update: true
           install: >-
+            git
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-meson
             mingw-w64-x86_64-ninja
             mingw-w64-x86_64-gmp
             mingw-w64-x86_64-mpfr
             mingw-w64-x86_64-cmake
-            make
-            autoconf
-            automake
-            libtool
 
       # ── Build giac from source (Linux) ────────────────────────────────
       - name: Build giac from source (Linux)
