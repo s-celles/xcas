@@ -35,7 +35,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y meson ninja-build gcc g++ \
-            libgmp-dev libmpfr-dev libfltk1.3-dev libgiac-dev
+            libgmp-dev libmpfr-dev libfltk1.3-dev
 
       # ── macOS dependencies ─────────────────────────────────────────────
       - name: Install dependencies (macOS)
@@ -56,13 +56,29 @@ jobs:
             mingw-w64-x86_64-ninja
             mingw-w64-x86_64-gmp
             mingw-w64-x86_64-mpfr
+            mingw-w64-x86_64-cmake
+            make
+            autoconf
+            automake
+            libtool
+
+      # ── Build giac from source (Linux) ────────────────────────────────
+      - name: Build giac from source (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          git clone --depth 1 https://github.com/s-celles/giac.git /tmp/giac-src
+          cd /tmp/giac-src
+          meson setup builddir --prefix=/usr/local
+          meson compile -C builddir
+          sudo meson install -C builddir
+          sudo ldconfig
 
       # ── Build giac from source (macOS) ─────────────────────────────────
       - name: Build giac from source (macOS)
         if: runner.os == 'macOS'
         run: |
           git clone --depth 1 https://github.com/s-celles/giac.git /tmp/giac-src
-          cd /tmp/giac-src/giac
+          cd /tmp/giac-src
           meson setup builddir --prefix=/usr/local
           meson compile -C builddir
           sudo meson install -C builddir
@@ -73,12 +89,16 @@ jobs:
         shell: msys2 {0}
         run: |
           curl -L -o /tmp/fltk.tar.gz \
-            https://www.fltk.org/pub/fltk/1.3.11/fltk-1.3.11-source.tar.gz
+            https://github.com/fltk/fltk/archive/refs/tags/release-1.3.11.tar.gz
           tar xzf /tmp/fltk.tar.gz -C /tmp
-          cd /tmp/fltk-1.3.11
-          ./configure --prefix=/mingw64 --enable-shared
-          make -j$(nproc)
-          make install
+          cd /tmp/fltk-release-1.3.11
+          mkdir build && cd build
+          cmake .. -G "MinGW Makefiles" \
+            -DCMAKE_INSTALL_PREFIX=/mingw64 \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DFLTK_BUILD_SHARED_LIBS=ON
+          cmake --build . --parallel
+          cmake --install .
 
       # ── Build giac from source (Windows) ───────────────────────────────
       - name: Build giac from source (Windows)
@@ -86,7 +106,7 @@ jobs:
         shell: msys2 {0}
         run: |
           git clone --depth 1 https://github.com/s-celles/giac.git /tmp/giac-src
-          cd /tmp/giac-src/giac
+          cd /tmp/giac-src
           meson setup builddir --prefix=/mingw64
           meson compile -C builddir
           meson install -C builddir
