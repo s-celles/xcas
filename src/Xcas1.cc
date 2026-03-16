@@ -59,6 +59,9 @@
 #include <string.h>
 #include <dirent.h>
 #include <sys/stat.h> // auto-recovery function
+#ifndef _WIN32
+#include <unistd.h>
+#endif
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
