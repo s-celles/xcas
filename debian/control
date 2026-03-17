@@ -1,0 +1,30 @@
+Source: xcas
+Section: math
+Priority: optional
+Maintainer: Sébastien Celles <s.celles@gmail.com>
+Build-Depends: debhelper-compat (= 13),
+               meson (>= 1.2.0),
+               ninja-build,
+               libgiac-dev,
+               libgmp-dev,
+               libmpfr-dev,
+               libfltk1.4-dev,
+               libgl-dev,
+               libx11-dev
+Standards-Version: 4.6.2
+Homepage: https://github.com/s-celles/xcas
+
+Package: xcas
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Graphical interface for the Giac computer algebra system
+ Xcas is a graphical frontend for the Giac library, built with FLTK.
+ It provides an interactive environment for symbolic and numeric
+ computation, including:
+    - Expression expansion and factorization
+    - Equation and system solving
+    - Calculus (integration, differentiation)
+    - 2D and 3D curve plotting
+    - Spreadsheet with CAS formulas
+ .
+ The Giac library (libgiac) is available as a separate package.

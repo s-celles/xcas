@@ -1,0 +1,6 @@
+xcas (1.0.0-1) stable; urgency=low
+
+  * Initial release with Meson build system.
+  * FLTK 1.4 GUI frontend for libgiac.
+
+ -- Sébastien Celles <s.celles@gmail.com>  Mon, 17 Mar 2026 00:00:00 +0100
