@@ -35,6 +35,21 @@ libxcas_dep = declare_dependency(
   dependencies: gui_deps,
 )
 
+# ── Install xcas headers (needed by icas for optional GUI support) ────────────
+
+xcas_headers = files(
+  'History.h', 'Input.h', 'Xcas1.h', 'Equation.h',
+  'Print.h', 'Tableur.h', 'Editeur.h', 'Graph.h',
+  'Graph3d.h', 'Help1.h', 'Cfg.h', 'Python.h',
+  'Flv_CStyle.H', 'Flv_Data_Source.H', 'Flv_List.H',
+  'Flv_Style.H', 'Flv_Table.H',
+  'Flve_Check_Button.H', 'Flve_Combo.H', 'Flve_Input.H',
+  'Fl_Gl_Choice.H',
+  'gl2ps.h', 'hist.h',
+)
+
+install_headers(xcas_headers, subdir: 'xcas')
+
 # ── xcas executable ──────────────────────────────────────────────────────────
 
 executable('xcas',
