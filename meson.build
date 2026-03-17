@@ -84,9 +84,14 @@ endif
 
 # ── Common compile arguments ──────────────────────────────────────────────────
 
+# These MUST match giac's giac_common_args to ensure ABI compatibility
+# (especially USE_OBJET_BIDON which changes the layout of giac::gen)
 xcas_common_args = [
-  '-DHAVE_CONFIG_H',
+  '-DUSE_OBJET_BIDON',
   '-DGIAC_GENERIC_CONSTANTS',
+  '-DTIMEOUT',
+  '-DHAVE_CONFIG_H',
+  '-D_GNU_SOURCE',
   '-DHAVE_LIBFLTK',
   '-fno-strict-aliasing',
 ]

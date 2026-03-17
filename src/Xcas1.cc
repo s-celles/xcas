@@ -4205,6 +4205,10 @@ namespace xcas {
       return false;
 #endif    // FIXME GIAC_CONTEXT
     // const giac::context * contextptr = get_context(Fl_Group::current());
+    if (ge.type==giac::_SYMB) CERR << " sommet=" << ge._SYMBptr->sommet.ptr()->s << " is_pnt=" << (ge._SYMBptr->sommet==giac::at_pnt) << " sommet._ptr=" << (void*)ge._SYMBptr->sommet._ptr << " at_pnt._ptr=" << (void*)giac::at_pnt->_ptr;
+    CERR << '\n';
+    // Save ge before widget creation (FLTK callbacks may invalidate it)
+    giac::gen ge_saved(ge);
     bool geometry=!figure_filename.empty();
     if (file_type==4 && figure_filename.empty()){
       figure_filename="table.tab";
@@ -4307,6 +4311,7 @@ namespace xcas {
       print_wid=wid=w;
     }
     else {
+      ge=ge_saved; // restore ge in case it was invalidated by FLTK widget creation
       int t=graph_output_type(ge);
       if (t==4 || file_type==4){
 	xcas::Turtle * tu=new xcas::Turtle(0,25,dx,dy-25);
